@@ -12,7 +12,9 @@ namespace MvcMovie.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            // Console.Beep();  Maakt een beep geluid als je op dit stuk van de pagina komt. 
+            // return View();
+            return RedirectToAction("Welcome", "HelloWorld");
         }
 
         public IActionResult About()

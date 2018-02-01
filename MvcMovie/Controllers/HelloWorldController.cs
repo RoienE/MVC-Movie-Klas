@@ -29,10 +29,10 @@ namespace MvcMovie.Controllers
         //    return HtmlEncoder.Default.Encode($"Hello {pNaam}, World! Aantal keer: {pAantalKeer}.");
         //}
 
-        public String Welcome()
-        {
-            return "Dit is mijn eigen welkomstwoordje! ;-)";
-        }
+        //public String Welcome()
+        //{
+        //    return "Dit is mijn eigen welkomstwoordje! ;-)";
+        //}
 
         public String MijnSom(int pGetal1 = 1, int pGetal2 = 2)
         {
@@ -40,5 +40,9 @@ namespace MvcMovie.Controllers
             return "De som van deze getallen is: " + som;
         }
 
+        public IActionResult Welcome()
+        {
+            return View();
+        }
     }
 }
