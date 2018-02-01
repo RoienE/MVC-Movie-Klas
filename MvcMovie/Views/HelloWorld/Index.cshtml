@@ -1,0 +1,30 @@
+﻿@*
+    Dit is comment voor viewpages @* ..., Dit is serverside en zal niet voor de client zichtbaar zijn.
+*@
+
+<!-- Dit is HTML Commentaar, opgelet deze gaat mee naar de client, bovenstaande commentmanier is serverside
+    en zal niet voor de client zichtbaar zijn. -->
+@{
+    // Gebruik maken van een zogenaamde associatieve array
+    ViewData["Title"] = "Index";
+
+    <h2>Index</h2>
+    <p>Hallo, Wereld! (nu vanaf de View 'template')</p>
+    
+}
+
+
+<div style="background-color: lightgray">
+    
+        De naam is @Html.Raw(ViewData["Name"]). <br />
+        Het aantal is @Html.Raw(ViewData["AmountOfTimes"]) keer.
+        
+        <ul>
+            @for (int kTeller = 0; kTeller < (int)ViewData["AmountOfTimes"]; kTeller++)
+            {
+                <li>@ViewData["Name"]</li>
+
+            }
+        </ul>
+        
+</div>
