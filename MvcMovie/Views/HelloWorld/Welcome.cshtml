@@ -7,12 +7,13 @@
 
 <html>
 <head>
+    @* *01-02/02/2018 *@
+
     <!-- meta: "Daarbijhorend" -->
     <meta name="viewport" content="width=device-width" />
     <script>
         //  met sterretje mag de comment NIET weg * https://www.w3schools.com/js/tryit.asp?filename=tryjs_timing_clock
-        function startTime()
-        {
+        function startTime() {
             var today = new Date();
             var h = today.getHours();
             var m = today.getMinutes();
@@ -20,18 +21,16 @@
             m = checkTime(m);
             s = checkTime(s);
             document.getElementById('time').innerHTML =
-            h + ":" + m + ":" + s;
-        var t = setTimeout(startTime, 500);
+                h + ":" + m + ":" + s;
+            var t = setTimeout(startTime, 500);
         }
 
-        function checkTime(i)
-        {
-            if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+        function checkTime(i) {
+            if (i < 10) { i = "0" + i };  // add zero in front of numbers < 10
             return i;
         }
 
-        function telOp()
-        {
+        function telOp() {
             var getal01 = parseInt(document.getElementById("txbGetal01").value);
             var getal02 = parseInt(document.getElementById("txbGetal02").value);
             var resultaat = getal01 + getal02;
@@ -46,41 +45,86 @@
     <title>Welcome om @DateTime.Now.ToLongTimeString()</title>
 </head>
 <body bgcolor="Turquoise" onload="startTime()">
-    <center><h1>Mijn hallo wereld welkomstpagina</h1></center><hr/>
-    <table border="1">
-        <tr>
-            <td>
-                De tijd is: 
-            </td>
-            <td>
-                <div id="time"></div>
-            </td>
-            <td colspan="2">
-                Server Side
-            </td>
-        </tr>
-        <tr>
-            <td>Getal 1: </td>
-            <td><input type="text" id="txbGetal01" /></td>
-            <td colspan="2">Dezelfde!</td>
-        </tr>
-        <tr>
-            <td>Getal 2: </td>
-            <td><input type="text" id="txbGetal02" /></td>
-            <td colspan="2">Dezelfde!</td>
-        </tr>
-        <tr>
-            <td colspan="2" style="text-align:center;"><input type="button" value="Toon resultaat" onclick="telOp()"/></td>
-        </tr>
-        <tr>
-            <td colspan="2"><div id="divresultaat" style="font-size:xx-large"></div></td>
-            <td colspan="2"><input type="submit" value="Serverresultaat" id="btnServerTest"/></td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <input type="button" id="btnTest" value="Testt" onclick="alert('Mijn JavaScript Hallo wereld!');"/>
-            </td>
-        </tr>
-    </table>
+    <center><h1>Mijn hallo wereld welkomstpagina : FUCK INTERNET EXPLORER</h1></center><hr />
+    <form asp-controller="HelloWorld" method="post">
+        <table border="1">
+            <tr>
+                <td>
+                    De tijd is:
+                </td>
+                <td>
+                    <div id="time"></div>
+                </td>
+                <td colspan="2">
+                    Server Side
+                </td>
+            </tr>
+            <tr>
+                <td>Getal 1: </td>
+                <td>
+                    <input type="text" id="txbGetal01" name="txbGetal01" value=@ViewData["Getal 1"] />
+                </td>
+                <td colspan="2">Dezelfde!</td>
+            </tr>
+            <tr>
+                <td>Getal 2: </td>
+                <td><input type="text" id="txbGetal02" name="txbGetal02" value=@ViewData["Getal 2"] /></td>
+                <td colspan="2">Dezelfde!</td>
+            </tr>
+            <tr>
+                <td colspan="2" style="text-align:center;"><input type="button" value="Toon resultaat" onclick="telOp()" /></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <div id="divresultaat" style="font-size:xx-large">
+                        @ViewData["Resultaat"]
+
+                    </div>
+                </td>
+                <td colspan="2"><input type="submit" value="Serverresultaat" id="btnServerTest" formaction="@Url.Action("DoeBewerking", "HelloWorld")" /></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input type="button" id="btnTest" value="Testt" onclick="alert('Mijn JavaScript Hallo wereld!');" />
+                </td>
+            </tr>
+
+
+            <tr>
+                <td>Vul een tekst in: </td>
+                <td><input type="text" id="inTeVullenText" name="inTeVullenText" /></td>
+            </tr>
+            <tr>
+                <td><input type="checkbox" id="chkboxIMG" name="chkboxIMG" value="Koekje?" /></td>
+                <td><input type="submit" id="btnAantalKeerKopieren" value="Kopieer" formaction="@Url.Action("Kopieer", "HelloWorld")" /></td>
+            </tr>
+        </table>
+
+        @if (ViewData["AantalKeer"] != null)
+        {
+            int ak = (int)ViewData["AantalKeer"];
+
+            if ((int)ViewData["OnOrOff"] == 0)
+            {
+
+                @for (int kTeller = 0; kTeller < ak; kTeller++)
+                {
+                    @ViewData["Text"] <br />
+
+                }
+            }
+
+            else if ((int)ViewData["OnOrOff"] == 1)
+            {
+
+                @for (int kTeller = 0; kTeller < ak; kTeller++)
+                {
+                     <img src="~/images/prod-vanilla-chock-chip.png" /><br />
+                }
+            }
+
+        }
+    </form>
+
 </body>
 </html>

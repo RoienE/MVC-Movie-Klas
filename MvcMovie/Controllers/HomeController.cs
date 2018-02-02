@@ -14,7 +14,7 @@ namespace MvcMovie.Controllers
         {
             // Console.Beep();  Maakt een beep geluid als je op dit stuk van de pagina komt. 
             // return View();
-            return RedirectToAction("Welcome", "HelloWorld");
+            return RedirectToAction("Welcome", "HelloWorld"); // Verwijst de homepagina naar een andere pagina dan de index.html
         }
 
         public IActionResult About()
