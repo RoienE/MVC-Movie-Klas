@@ -153,9 +153,33 @@ namespace MvcMovie.Controllers
             }
             catch (Exception)
             {
-                ViewData[MyUtilities.SW_CalcAnderePagina_Resultaat] = "niet berekenbaar [08022018D]";
+                ViewData[MyUtilities.SW_CalcAnderePagina_Resultaat] = "nog niet bekend"; // "niet berekenbaar [08022018D]";
             }
             return View();
+        }
+
+        public IActionResult makeCookie()
+        {
+            //
+            // D: 08/02/2018
+            // P: de nodige waarden worden aangeleverd
+            // P: het koekje is gemaakt 
+            // G: in view CalcResultOtherPage
+            // R: de view CalcResultOtherPage
+            // O: / 
+            //
+
+            try
+            {
+                @ViewData["Result"] = HttpContext.Request.Form["txbCookiesContent"].ToString();
+                @ViewData["txaResult"] = "YOEHOE";
+            }
+            catch (Exception)
+            {
+                @ViewData["txaResult"] = "Het koekje kan nog niet gemaakt worden";
+            }
+
+            return View("CalcResultOtherPage");
         }
     }
 }

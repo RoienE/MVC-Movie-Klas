@@ -1,0 +1,30 @@
+﻿/* Dit is commentaar voor CSS || 08/02/2018*/
+
+body {
+}
+
+/* 08/02/2018 cfr o.a. https://www.w3schools.com/howto/howto_css_three_columns.asp*/
+
+.column {
+    float: left;
+    width: 33.33%;
+    text-align: center;
+}
+
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+#idCookies{
+    background-color: blueviolet;
+    color: red;
+    font-size: x-large;
+}
+
+textarea{
+    width: 90%;
+    min-height: 120px;
+}
