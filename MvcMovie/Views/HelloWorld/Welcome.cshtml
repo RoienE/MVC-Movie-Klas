@@ -1,53 +1,30 @@
 ﻿
 @{
     Layout = null;
+    String kUsingBGColor = MyUtilities.RenderColorAlsHex(MyUtilities.RenderRandomColor());
+    Console.WriteLine("\n\n\n\t kUsingBGColor; " + kUsingBGColor + "\n\n\n");
 }
+@using MvcMovie.Library;
 
 <!DOCTYPE html>
 
 <html>
 <head>
-    @* *01-02/02/2018 *@
+    @* *01-02/02/2018 *@ @* Modified at: 1-2-8/02/2018 *@
 
     <!-- meta: "Daarbijhorend" -->
     <meta name="viewport" content="width=device-width" />
+    <script type="text/javascript" src="~/js/MijnJavaScript.js"></script>
     <script>
-        //  met sterretje mag de comment NIET weg * https://www.w3schools.com/js/tryit.asp?filename=tryjs_timing_clock
-        function startTime() {
-            var today = new Date();
-            var h = today.getHours();
-            var m = today.getMinutes();
-            var s = today.getSeconds();
-            m = checkTime(m);
-            s = checkTime(s);
-            document.getElementById('time').innerHTML =
-                h + ":" + m + ":" + s;
-            var t = setTimeout(startTime, 500);
-        }
-
-        function checkTime(i) {
-            if (i < 10) { i = "0" + i };  // add zero in front of numbers < 10
-            return i;
-        }
-
-        function telOp() {
-            var getal01 = parseInt(document.getElementById("txbGetal01").value);
-            var getal02 = parseInt(document.getElementById("txbGetal02").value);
-            var resultaat = getal01 + getal02;
-
-            if (isNaN(resultaat)) {
-                resultaat = "Gelieve enkel getallen in te vullen.";
-            }
-
-            document.getElementById("divresultaat").innerHTML = "" + resultaat;
-        }
+        // 08/02/2018 Hier stond de oorspronkelijke JS code
     </script>
     <title>Welcome om @DateTime.Now.ToLongTimeString()</title>
 </head>
-<body bgcolor="Turquoise" onload="startTime()">
+<body bgcolor="@kUsingBGColor" onload="startTime()">
+    
     <center><h1>Mijn hallo wereld welkomstpagina : FUCK INTERNET EXPLORER</h1></center><hr />
     <form asp-controller="HelloWorld" method="post">
-        <table border="1">
+        <table border="1" width="80%" align="center">
             <tr>
                 <td>
                     De tijd is:
@@ -81,9 +58,11 @@
 
                     </div>
                 </td>
-                <td colspan="2"><input type="submit" value="Serverresultaat" id="btnServerTest" formaction="@Url.Action("DoeBewerking", "HelloWorld")" /></td>
+                <td colspan="2"><input type="submit" value="Serverresultaat" id="btnServerTest" formaction="@Url.Action("DoeBewerking", "HelloWorld")" /></td><br />
+                <td colspan="2"><input type="submit" value="Bewerking naar andere pagina" id="btnNaarAnderePagina" formaction="@Url.Action("CalcResultOtherPage", "HelloWorld")" /></td>
             </tr>
             <tr>
+                <td colspan="2">@kUsingBGColor</td>
                 <td colspan="2">
                     <input type="button" id="btnTest" value="Testt" onclick="alert('Mijn JavaScript Hallo wereld!');" />
                 </td>

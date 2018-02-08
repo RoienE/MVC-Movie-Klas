@@ -5,8 +5,9 @@ using System.Linq;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using MvcMovie.Library;
 
-// *25/01/2018
+// *25/01/2018 MODIFIED at: 01-02-08/02/2018
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace MvcMovie.Controllers
@@ -110,8 +111,51 @@ namespace MvcMovie.Controllers
             }
             
             return View("Welcome");
-            
         }
         
+        public IActionResult CalcResultOtherPage()
+        {
+            @ViewData[MyUtilities.SW_CalcAnderePagina_Resultaat] = "nog niet bekend";
+
+            String kGetal01 = "=kGetal01=", kGetal02 = "=kGetal02=";
+            int getal01 = 123456,
+                getal02 = 987654;
+
+            try
+            {
+                kGetal01 = HttpContext.Request.Form["txbGetal01"].ToString();
+                try
+                {
+                    kGetal02 = HttpContext.Request.Form["txbGetal02"].ToString();
+                    try
+                    {
+                        getal01 = int.Parse(kGetal01);
+                        try
+                        {
+                            getal02 = int.Parse(kGetal02);
+
+                            ViewData[MyUtilities.SW_CalcAnderePagina_Resultaat] = "" + (getal01 + getal02);
+                        }
+                        catch (Exception)
+                        {
+                            ViewData[MyUtilities.SW_CalcAnderePagina_Resultaat] = "niet berekenbaar [08022018A]";
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        ViewData[MyUtilities.SW_CalcAnderePagina_Resultaat] = "niet berekenbaar [08022018B]";
+                    }
+                }
+                catch (Exception)
+                {
+                    ViewData[MyUtilities.SW_CalcAnderePagina_Resultaat] = "niet berekenbaar [08022018C]";
+                }
+            }
+            catch (Exception)
+            {
+                ViewData[MyUtilities.SW_CalcAnderePagina_Resultaat] = "niet berekenbaar [08022018D]";
+            }
+            return View();
+        }
     }
 }
