@@ -9,16 +9,17 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
+    <script type="text/javascript" src="~/js/MijnJavaScript.js"></script>
     <link rel="stylesheet" href="~/css/MijnStijl.css" />
     <title>Calc Andere Pagina Plus Koekjes</title>
 
 </head>
-
-<body>
+@* 08/02/2018 || 09/02/2018 *@
+<body onload="startTime();">
     <h2>Andere pagina</h2><hr />
     Het resultaat van de bewerking is @ViewData[MyUtilities.SW_CalcAnderePagina_Resultaat].<hr />
     Teruggaan naar @Html.ActionLink("mijn Hallo Wereld", "Welcome", "HelloWorld"). <br />   @* <a href="~/Views/HelloWorld/Welcome.cshtml">vorige pagina</a> *@
-    @* 08/02/2018 *@
+
 
     <form asp-controller="HelloWorld" method="post">
         <div id="idCookies">
@@ -27,17 +28,17 @@
                     Content cookie: <input type="text" id="txbCookiesContent" name="txbCookiesContent" /> @* value=@ViewData["Getal 1"] *@
                 </div>
                 <div class="column">
-
+                    Tijd: <input type"text" id="txbTijd" name="txbTijd" />
                 </div>
                 <div class="column">
-
+                    <div id="time"></div>
                 </div>
             </div>
             <div class="row">
                 <div class="column">
                     <input type="submit" value="Make cookie" id="btnMakeCookie" formaction="@Url.Action("makeCookie", "HelloWorld")" />
                     <!-- Om een apenstraatje in comment te laten herkennen is het: @@ ||
-            @@Url.Action("DoeBewerking", "HelloWorld")" -->
+                    @@Url.Action("DoeBewerking", "HelloWorld")" -->
                 </div>
                 <div class="column">
                     <input type="submit" value="Check cookie" id="btnCheckCookie" formaction="@Url.Action("checkCookie", "HelloWorld")" />
@@ -46,7 +47,8 @@
                     <input type="submit" value="Delete cookie" id="btnDeleteCookie" formaction="@Url.Action("deleteCookie", "HelloWorld")" />
                 </div>
             </div>
-            <textarea>
+            <center>
+                <textarea>
                 @{ 
                     if (ViewData["txaResult"] == null)
                     {
@@ -58,6 +60,7 @@
                     }
                 }
             </textarea>
+            </center>
         </div>
     </form>
 

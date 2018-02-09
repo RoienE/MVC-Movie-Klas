@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MvcMovie.Library;
 
@@ -169,14 +170,101 @@ namespace MvcMovie.Controllers
             // O: / 
             //
 
+            String kHulpString = "=kHulpString=";
+
             try
             {
                 @ViewData["Result"] = HttpContext.Request.Form["txbCookiesContent"].ToString();
-                @ViewData["txaResult"] = "YOEHOE";
+
+                if (String.IsNullOrEmpty(ViewData["Result"].ToString()) == true)
+                {
+                    kHulpString = "An EMPTY cookie is not allowed: defaultvalue 'abc123' has been assigned to the cookie. \n";
+                    @ViewData["Result"] = "abc123";
+                }
+
+                HttpContext.Response.Cookies.Append(MyUtilities.MY_COOKIE, ViewData["Result"].ToString());
+
+                kHulpString = @ViewData["Result"].ToString();
+                @ViewData["txaResult"] = "YOEHOE, Cookie with value '" + ViewData["Result"] + "' is added. (--" + DateTime.Now + "--)";
+                @ViewData["txaResult"] = kHulpString;
             }
             catch (Exception)
             {
                 @ViewData["txaResult"] = "Het koekje kan nog niet gemaakt worden";
+            }
+
+            return View("CalcResultOtherPage");
+        }
+
+        public IActionResult checkCookie()
+        {
+            String kHulpString = "=kHulpString=";
+            //
+            // D: 09/02/2018
+            // P: de nodige waarden worden aangeleverd
+            // P: het koekje is gecontroleerd 
+            // G: in view CalcResultOtherPage
+            // R: een instantie van de view CalcResultOtherPage
+            // O: / 
+            //
+
+            try
+            {
+                kHulpString = Request.Cookies[MyUtilities.MY_COOKIE];
+
+                if(String.IsNullOrEmpty(kHulpString) == true)
+                {
+                    @ViewData["txaResult"] = "The cookie does not exist yet.";
+                }
+                else
+                {
+                    @ViewData["txaResult"] = "The cookie exist, with value: " + kHulpString + ".";
+                }
+
+            }
+            catch (Exception)
+            {
+                @ViewData["txaResult"] = "Het koekje kan (nog) niet gecontrleerd worden";
+            }
+
+            return View("CalcResultOtherPage");
+        }
+
+        public IActionResult deleteCookie()
+        {
+            String kHulpString = "=kHulpString=";
+            //
+            // D: 09/02/2018
+            // P: de nodige waarden worden aangeleverd
+            // P: het koekje is verwijderd 
+            // G: in view CalcResultOtherPage
+            // R: een instantie van de view CalcResultOtherPage
+            // O: / 
+            //
+
+            try
+            {
+                kHulpString = Request.Cookies[MyUtilities.MY_COOKIE];
+
+                if (String.IsNullOrEmpty(kHulpString) == true)
+                {
+                    @ViewData["txaResult"] = "The cookie does not exist yet, and can not be deleted.";
+                }
+                else
+                {
+                    CookieOptions kMyOptions = new CookieOptions();
+                    kMyOptions.Expires = DateTime.Now.AddMinutes(-10);
+
+                    HttpContext.Response.Cookies.Append(MyUtilities.MY_COOKIE, kHulpString, kMyOptions);
+
+                    kHulpString = "YOEHOE, Cookie with value '" + kHulpString + "' is deleted. (--" + DateTime.Now + "--)";
+                    @ViewData["txaResult"] = kHulpString;
+                }
+
+            }
+            catch (Exception)
+            {
+                @ViewData["txaResult"] = "Het koekje kan (nog) niet gecontrleerd worden";
             }
 
             return View("CalcResultOtherPage");
