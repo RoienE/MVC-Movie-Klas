@@ -1,0 +1,26 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Welkom op deze quiz.</title>
+</head>
+
+<body>
+    <center><h1>Welkom op deze quiz.</h1></center>
+    (Teruggaan naar @Html.ActionLink("mijn Hallo Wereld", "CalcResultOtherPage", "HelloWorld").) <br /><hr />
+    <form asp-controller="HelloWorld" method="post">
+        <center>Vul hier je naam in: <input type="text" id="txbName" name="txbName" /><br /> <br />
+            <input type="submit" value="Ga naar de quiz" id="btnGoToQuiz" formaction="@Url.Action("makeCookieQuiz", "HelloWorld")" />
+        </center>
+
+    </form>
+
+</body>
+
+</html>

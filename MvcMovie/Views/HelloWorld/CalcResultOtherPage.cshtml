@@ -1,4 +1,4 @@
-﻿
+﻿@using System.Collections.Generic;
 @{
     Layout = null;
 }
@@ -19,7 +19,7 @@
     <h2>Andere pagina</h2><hr />
     Het resultaat van de bewerking is @ViewData[MyUtilities.SW_CalcAnderePagina_Resultaat].<hr />
     Teruggaan naar @Html.ActionLink("mijn Hallo Wereld", "Welcome", "HelloWorld"). <br />   @* <a href="~/Views/HelloWorld/Welcome.cshtml">vorige pagina</a> *@
-
+    Wil je een quiz doen? @Html.ActionLink("Waag je kans!", "QuizHP", "HelloWorld").<br />
 
     <form asp-controller="HelloWorld" method="post">
         <div id="idCookies">
@@ -29,6 +29,10 @@
                 </div>
                 <div class="column">
                     Tijd: <input type"text" id="txbTijd" name="txbTijd" />
+                    @* Hier moet nog een dropdown komen !!  *@
+                    @Html.DropDownList("TijdsKeuze")
+                    @* <input type="text"txbEenheid" name="txbEenheid" /> *@
+
                 </div>
                 <div class="column">
                     <div id="time"></div>

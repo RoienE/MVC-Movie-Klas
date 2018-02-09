@@ -1,0 +1,20 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Vraag 2</title>
+</head>
+
+<body>
+    <form asp-controller="HelloWorld">
+        Wat is wit met zwart, een vogel maar kan niet vliegen? Een <input type="text" id="txbA2" name="txbA2" /> <br />
+        <input type="submit" value="Controleer" id="btnGoToQ3" formaction="@Url.Action("goToQuestion3", "HelloWorld")" /> 1/3
+    </form>
+</body>
+</html>

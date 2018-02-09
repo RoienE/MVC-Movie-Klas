@@ -27,3 +27,7 @@
 
             document.getElementById("divresultaat").innerHTML = "" + resultaat;
         }
+
+        function InsertLabel() {
+            document.getElementById('wrongLabel').innerHTML = "This answer is not correct.";
+        }

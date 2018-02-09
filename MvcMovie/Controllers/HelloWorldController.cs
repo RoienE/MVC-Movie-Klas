@@ -6,6 +6,7 @@ using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using MvcMovie.Library;
 
 // *25/01/2018 MODIFIED at: 01-02-08/02/2018
@@ -124,6 +125,18 @@ namespace MvcMovie.Controllers
 
             try
             {
+                List<SelectListItem> items = new List<SelectListItem>();
+
+                items.Add(new SelectListItem { Text = "(Niets)", Value = "0", Selected = true });
+
+                items.Add(new SelectListItem { Text = "sec", Value = "1" });
+
+                items.Add(new SelectListItem { Text = "min", Value = "2" });
+
+                items.Add(new SelectListItem { Text = "uur", Value = "3" });
+
+                ViewBag.TijdsKeuze = items;
+
                 kGetal01 = HttpContext.Request.Form["txbGetal01"].ToString();
                 try
                 {
@@ -159,7 +172,7 @@ namespace MvcMovie.Controllers
             return View();
         }
 
-        public IActionResult makeCookie()
+        public IActionResult makeCookie(string TijdsKeuze)
         {
             //
             // D: 08/02/2018
@@ -170,10 +183,56 @@ namespace MvcMovie.Controllers
             // O: / 
             //
 
-            String kHulpString = "=kHulpString=";
+            String kHulpString = "=kHulpString=",
+                kTijd = "",
+                kEenheid = "=kEenheid=";
+
+            int kHulpController = -18020901,
+                kKeuze = -18020921;
+            CookieOptions kMyOptions = null;
 
             try
             {
+                kTijd = HttpContext.Request.Form["txbTijd"].ToString();
+
+                if(string.IsNullOrEmpty(kTijd) == true)
+                {
+                    kHulpController = -18020902;
+                    kHulpString = "";
+                    HttpContext.Response.Cookies.Append(MyUtilities.MY_COOKIE, ViewData["Result"].ToString());
+                }
+                else
+                {
+                    kKeuze = int.Parse(TijdsKeuze);
+                    if(kKeuze == 1)
+                    {
+                        kHulpController = 18020903;
+                        kMyOptions.Expires = DateTime.Now.AddSeconds(int.Parse(kTijd));
+                    }
+                    else if(kKeuze == 2)
+                    {
+                        kHulpController = 18020904;
+                        kMyOptions.Expires = DateTime.Now.AddMinutes(int.Parse(kTijd));
+                    }
+                    else if(kKeuze == 3)
+                    {
+                        kHulpController = 18020904;
+                        kMyOptions.Expires = DateTime.Now.AddHours(int.Parse(kTijd));
+                    }
+                    else
+                    {
+                        kHulpController = -18020922;
+                    }
+                    if(kHulpController < 0)
+                    {
+                        HttpContext.Response.Cookies.Append(MyUtilities.MY_COOKIE, ViewData["Result"].ToString());
+                    }
+                    else
+                    {
+                        HttpContext.Response.Cookies.Append(MyUtilities.MY_COOKIE, ViewData["Result"].ToString(), kMyOptions);
+                    }
+                }
+
                 @ViewData["Result"] = HttpContext.Request.Form["txbCookiesContent"].ToString();
 
                 if (String.IsNullOrEmpty(ViewData["Result"].ToString()) == true)
@@ -181,16 +240,46 @@ namespace MvcMovie.Controllers
                     kHulpString = "An EMPTY cookie is not allowed: defaultvalue 'abc123' has been assigned to the cookie. \n";
                     @ViewData["Result"] = "abc123";
                 }
-
-                HttpContext.Response.Cookies.Append(MyUtilities.MY_COOKIE, ViewData["Result"].ToString());
-
-                kHulpString = @ViewData["Result"].ToString();
+                else
+                {
+                    kHulpString = "";
+                }
+                //
+                //
+                //
+                if (kHulpController < 0)
+                {
+                    HttpContext.Response.Cookies.Append(MyUtilities.MY_COOKIE, ViewData["Result"].ToString());
+                }
+                else
+                {
+                    HttpContext.Response.Cookies.Append(MyUtilities.MY_COOKIE, ViewData["Result"].ToString(), kMyOptions);
+                }
+                //
+                //
+                //
+                kHulpString += @ViewData["Result"].ToString();
                 @ViewData["txaResult"] = "YOEHOE, Cookie with value '" + ViewData["Result"] + "' is added. (--" + DateTime.Now + "--)";
-                @ViewData["txaResult"] = kHulpString;
+                // @ViewData["txaResult"] = kHulpString;
             }
             catch (Exception)
             {
                 @ViewData["txaResult"] = "Het koekje kan nog niet gemaakt worden";
+            }
+
+            finally
+            {
+                List<SelectListItem> items = new List<SelectListItem>();
+
+                items.Add(new SelectListItem { Text = "(Niets)", Value = "0", Selected = true });
+
+                items.Add(new SelectListItem { Text = "sec", Value = "1" });
+
+                items.Add(new SelectListItem { Text = "min", Value = "2" });
+
+                items.Add(new SelectListItem { Text = "uur", Value = "3" });
+
+                ViewBag.TijdsKeuze = items;
             }
 
             return View("CalcResultOtherPage");
@@ -218,6 +307,7 @@ namespace MvcMovie.Controllers
                 }
                 else
                 {
+                    Console.Beep();
                     @ViewData["txaResult"] = "The cookie exist, with value: " + kHulpString + ".";
                 }
 
@@ -225,6 +315,21 @@ namespace MvcMovie.Controllers
             catch (Exception)
             {
                 @ViewData["txaResult"] = "Het koekje kan (nog) niet gecontrleerd worden";
+            }
+
+            finally
+            {
+                List<SelectListItem> items = new List<SelectListItem>();
+
+                items.Add(new SelectListItem { Text = "(Niets)", Value = "0", Selected = true });
+
+                items.Add(new SelectListItem { Text = "sec", Value = "1" });
+
+                items.Add(new SelectListItem { Text = "min", Value = "2" });
+
+                items.Add(new SelectListItem { Text = "uur", Value = "3" });
+
+                ViewBag.TijdsKeuze = items;
             }
 
             return View("CalcResultOtherPage");
@@ -267,7 +372,110 @@ namespace MvcMovie.Controllers
                 @ViewData["txaResult"] = "Het koekje kan (nog) niet gecontrleerd worden";
             }
 
+            finally
+            {
+                List<SelectListItem> items = new List<SelectListItem>();
+
+                items.Add(new SelectListItem { Text = "(Niets)", Value = "0", Selected = true });
+
+                items.Add(new SelectListItem { Text = "sec", Value = "1" });
+
+                items.Add(new SelectListItem { Text = "min", Value = "2" });
+
+                items.Add(new SelectListItem { Text = "uur", Value = "3" });
+
+                ViewBag.TijdsKeuze = items;
+            }
+
             return View("CalcResultOtherPage");
+        }
+
+        public IActionResult QuizHP()
+        {
+            return View();
+        }
+
+        public IActionResult makeCookieQuiz()
+        {
+            //
+            // D: 09/02/2018
+            // P: de nodige waarden worden aangeleverd
+            // P: het koekje is gemaakt waar de user opgeslaan is
+            // G: in view QuizHP
+            // R: de view QuizHP
+            // O: / 
+            //
+
+            String kHulpString = "=kHulpString=";
+            //kTijd = "",
+            //kEenheid = "=kEenheid=";
+
+            //     int kHulpController = -18020901;
+                // kTijdAlsInt = -18020907;
+            // CookieOptions kMyOptions = null;
+
+            try
+            {
+                @ViewData["NaamQuizzer"] = HttpContext.Request.Form["txbName"].ToString();
+
+                if (String.IsNullOrEmpty(ViewData["NaamQuizzer"].ToString()) == true)
+                {
+                    kHulpString = "The name must be entered. \n";
+                    //@ViewData["NaamQuizzer"] = "abc123";
+                }
+                else
+                {
+                    kHulpString = "";
+                }
+                //
+                //
+                //
+                HttpContext.Response.Cookies.Append(MyUtilities.MY_COOKIE, ViewData["NaamQuizzer"].ToString());
+                //
+                //
+                //
+                kHulpString += @ViewData["NaamQuizzer"].ToString();
+                // @ViewData["txaResult"] = "YOEHOE, Cookie with value '" + ViewData["Result"] + "' is added. (--" + DateTime.Now + "--)";
+                // @ViewData["txaResult"] = kHulpString;
+
+            }
+              
+            catch (Exception)
+            {
+                @ViewData["txaResult"] = "Het koekje kan nog niet gemaakt worden";
+            }
+
+            return View("Quiz1");
+        }
+
+        public IActionResult goToQuestion2()
+        {
+            String antwoord = "=antwoord=";
+
+            antwoord = HttpContext.Request.Form["txbA1"].ToString();
+            if(antwoord.ToLower().Equals("pyongyang"))
+            {
+                return View("Quiz2");
+            }
+            else
+            {
+                return View("Quiz1");
+            }
+        }
+
+        public IActionResult goToQuestion3()
+        {
+            String antwoord = "=antwoord=";
+
+            antwoord = HttpContext.Request.Form["txbA2"].ToString();
+            if (antwoord.ToLower().Equals("pinguin"))
+            {
+                return View("Quiz3");
+            }
+            else
+            {
+                return View("Quiz2");
+            }
         }
     }
 }

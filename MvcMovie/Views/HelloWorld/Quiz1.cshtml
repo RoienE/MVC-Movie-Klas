@@ -1,0 +1,23 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <script type="text/javascript" src="~/js/MijnJavaScript.js"></script>
+    <title>Vraag 1</title>
+</head>
+
+<body>
+    <form asp-controller="HelloWorld">
+        Wat is de hoofdstad van Noord-Korea? <label id="wrongLabel" name="wrongLabel" ></label><br />
+        <input type="text" id="txbA1" name="txbA1" /> <br />
+        <input type="submit" value="Controleer" id="btnGoToQ2" formaction="@Url.Action("goToQuestion2", "HelloWorld")" /> 0/3
+    </form>
+</body>
+
+</html>
