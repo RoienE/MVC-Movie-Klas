@@ -234,7 +234,7 @@ namespace MvcMovie.Controllers
                 }
 
                 @ViewData["Result"] = HttpContext.Request.Form["txbCookiesContent"].ToString();
-
+                // TestComment
                 if (String.IsNullOrEmpty(ViewData["Result"].ToString()) == true)
                 {
                     kHulpString = "An EMPTY cookie is not allowed: defaultvalue 'abc123' has been assigned to the cookie. \n";
